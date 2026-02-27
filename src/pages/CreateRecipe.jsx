@@ -2,10 +2,13 @@ import React, { use, useContext } from "react";
 import { set, useForm } from "react-hook-form";
 import {nanoid} from "nanoid";
 import { recipescontext } from "../context/Recipecontext";
+import {toast} from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const CreateRecipe = () => {
   const { register, handleSubmit,reset } = useForm();
   const {data,setdata}=useContext(recipescontext)
+  const navigate=useNavigate()
 
   function submitHandler(recipe){
     recipe.id=nanoid()
@@ -15,14 +18,16 @@ const CreateRecipe = () => {
     // setdata(copyData)
 
     setdata([...data,recipe])
+    toast.success("Recipe Created")
     reset()
+    navigate("/recipes")
   }
   return (
       <form onSubmit={handleSubmit(submitHandler)}>
         <input
           type="url"
           className="block border-b outline-0 p-2" 
-          {...register("image")}
+          {...register("img")}
           placeholder="Enter Image URL"
 
         />
@@ -37,21 +42,21 @@ const CreateRecipe = () => {
         <textarea
           type="text"
           className="block border-b outline-0 p-2" 
-          {...register("description")}
+          {...register("desc")}
           placeholder="Recipee Description"
         />
     
         <textarea
           type="text"
           className="block border-b outline-0 p-2" 
-          {...register("ingridients")}
+          {...register("ingr")}
           placeholder="Write Ingridients"
         />
     
         <textarea
           type="text"
           className="block border-b outline-0 p-2" 
-          {...register("instructions")}
+          {...register("inst")}
           placeholder="Recipee Instructions"
         />
         <textarea
@@ -65,9 +70,10 @@ const CreateRecipe = () => {
           {...register("category")}
           
         >
-          <option value="cat1">Category 1</option>
-          <option value="cat2">Category 2</option>
-          <option value="cat3">Category 3</option>
+          <option value="breakfast">Breakfast</option>
+          <option value="lunch">Lunch</option>
+          <option value="lnacks">Snacks</option>
+          <option value="dinner">Dinner</option>
         </select>
     
 
